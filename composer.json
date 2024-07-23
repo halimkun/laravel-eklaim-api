@@ -1,0 +1,36 @@
+{
+    "name": "halim/laravel-eklaim-api",
+    "description": "Package for integrating BPJS E-Klaim API",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "e-klaim",
+        "eklaim",
+        "bojs",
+        "api"
+    ],
+    "authors": [
+        {
+            "name": "Faisal Halim",
+            "email": "ffaisalhalim@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "illuminate/support": "^8.0|^9.0|^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FaisalHalim\\LaravelEklaimApi\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "FaisalHalim\\LaravelEklaimApi\\Providers\\EKlaimServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
