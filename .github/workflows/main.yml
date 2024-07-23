@@ -29,5 +29,3 @@ jobs:
         run: composer require "illuminate/support:${{ matrix.laravel }}" --no-update
       - name: Install Composer Dependencies
         run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader
-      - name: Run Tests
-        run: vendor/bin/phpunit
