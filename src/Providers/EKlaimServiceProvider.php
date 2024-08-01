@@ -30,16 +30,22 @@ class EKlaimServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../Config/eklaim.php', 'eklaim');
 
-        $this->app->singleton(EklaimService::class, function ($app) {
-            return new EklaimService(
-                config('eklaim.api_url'),
-                config('eklaim.secret_key'),
-                new EKlaimCrypt()
-            );
-        });
-
         $this->app->singleton(EKlaimCrypt::class, function ($app) {
             return new EKlaimCrypt();
         });
+
+        // $this->app->singleton(EklaimService::class, function ($app) {
+        //     return new EklaimService(
+        //         config('eklaim.api_url'),
+        //         config('eklaim.secret_key'),
+        //         new EKlaimCrypt()
+        //     );
+        // });
+
+        EklaimService::configure(
+            config('eklaim.api_url'),
+            config('eklaim.secret_key'),
+            $this->app->make(EKlaimCrypt::class)
+        );
     }
 }

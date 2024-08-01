@@ -4,6 +4,15 @@ namespace FaisalHalim\LaravelEklaimApi\Helpers;
 
 class EKlaimCrypt
 {
+    /**
+     * Mengenkripsi data menggunakan algoritma AES-256-CBC dan menghasilkan output yang
+     * di-encode dalam format base64.
+     *
+     * @param string $data Data yang akan dienkripsi.
+     * @param string $secreteKey Kunci rahasia 256-bit yang digunakan untuk enkripsi.
+     * @return string Data yang telah dienkripsi dan di-encode dalam format base64.
+     * @throws \Exception Jika panjang kunci tidak sesuai atau terjadi kesalahan enkripsi.
+     */
     public static function encrypt($data, $secreteKey)
     {
         $key = hex2bin($secreteKey);
@@ -24,6 +33,14 @@ class EKlaimCrypt
         return $encoded;
     }
 
+    /**
+     * Mendekripsi data yang telah dienkripsi menggunakan algoritma AES-256-CBC.
+     *
+     * @param string $encryptedData Data yang telah dienkripsi dan di-encode dalam format base64.
+     * @param string $secreteKey Kunci rahasia 256-bit yang digunakan untuk dekripsi.
+     * @return string Data yang telah didekripsi.
+     * @throws \Exception Jika panjang kunci tidak sesuai, tanda tangan tidak cocok, atau terjadi kesalahan dekripsi.
+     */
     public static function decrypt($encryptedData, $secreteKey)
     {
         $key = hex2bin($secreteKey);
@@ -50,17 +67,24 @@ class EKlaimCrypt
         return $decrypted;
     }
 
+    /**
+     * Membandingkan dua string dalam waktu konstan untuk menghindari serangan timing attack.
+     *
+     * @param string $str1 String pertama yang akan dibandingkan.
+     * @param string $str2 String kedua yang akan dibandingkan.
+     * @return bool True jika kedua string cocok, False jika tidak.
+     */
     private static function compare($str1, $str2)
     {
         $len = strlen($str1);
         $result = 0;
-        
-        if ($len !== strlen($str2))  return false;
-        
+
+        if ($len !== strlen($str2)) return false;
+
         for ($i = 0; $i < $len; $i++) {
             $result |= ord($str1[$i]) ^ ord($str2[$i]);
         }
-        
+
         return $result === 0;
     }
 }
