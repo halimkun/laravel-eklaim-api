@@ -6,5 +6,5 @@ Laravel E-Klaim API adalah sebuah API yang dibuat menggunakan Laravel 8.0 untuk 
 You can install the package via composer:
 
 ```bash
-composer require faisal-halim/laravel-eklaim-api
+composer require halim/laravel-eklaim-api
 ```

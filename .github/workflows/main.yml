@@ -1,0 +1,31 @@
+name: Test Laravel E-Klaim API Package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: [7.3, 7.4, 8.0, 8.1]
+        laravel: [8.*, 9.*, 10.*]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, xml, ctype, json, bcmath, tokenizer, fileinfo
+          coverage: none
+      - name: Install Dependencies
+        run: composer require "illuminate/support:${{ matrix.laravel }}" --no-update
+      - name: Install Composer Dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader
