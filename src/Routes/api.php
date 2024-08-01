@@ -43,17 +43,17 @@ Route::as("e-klaim.")->middleware('api')->prefix('eklaim')->group(function () {
     // =====> method : delete_claim
     Route::delete('/{sep}', [DeleteKlaimController::class, 'handle'])->name('delete.claim');
 
-    // // =====> method : reedit_claim
-    // Route::post('/reedit', [ReEditKlaimController::class, 'handle'])->name('reedit.claim');
+    // =====> method : reedit_claim
+    Route::post('/{sep}/re-edit', [ReEditKlaimController::class, 'handle'])->name('reedit.claim');
 
     // // =====> method : send_claim
     // Route::post('/send', [SendKlaimController::class, 'handle'])->name('send.claim');
 
-    // // =====> method : send_claim_individual
-    // Route::post('/send/{sep}', [SendKlaimIndividualController::class, 'handle'])->name('send.claim.individual');
+    // =====> method : send_claim_individual
+    Route::post('/send/{sep}', [SendKlaimIndividualController::class, 'handle'])->name('send.claim.individual');
 
-    // // =====> method : claim_print
-    // Route::post('/print/{sep}', [PrintKlaimController::class, 'handle'])->name('print.claim');
+    // =====> method : claim_print
+    Route::get('/{sep}/print', [PrintKlaimController::class, 'handle'])->name('print.claim');
 
     // // =====> method : pull_claim
     // Route::post('/pull', [PullKlaimController::class, 'handle'])->name('pull.claim');
