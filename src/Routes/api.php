@@ -25,20 +25,20 @@ use FaisalHalim\LaravelEklaimApi\Controllers\SitbInValidateController;
 use FaisalHalim\LaravelEklaimApi\Controllers\SitbValidateController;
 
 Route::as("e-klaim.")->middleware('api')->prefix('eklaim')->group(function () {
-    // // =====> method : new_claim
+    // =====> method : new_claim
     Route::post('/new', [NewKlaimController::class, 'handle'])->name('new.claim');
 
     // =====> method : set_claim_data
     Route::post('/{sep}', [SetKlaimDataController::class, 'handle'])->name('set.claim.data');
 
-    // // =====> method : generate_claim_number
-    // Route::post('/get/number', [GetKlaimNumberController::class, 'handle'])->name('get.claim.number');
+    // =====> method : generate_claim_number
+    Route::get('/get/number', [GetKlaimNumberController::class, 'handle'])->name('get.claim.number');
 
-    // // =====> method : get_claim_data
-    // Route::post('/get/{sep}', [GetKlaimDataController::class, 'handle'])->name('get.claim.data');
+    // =====> method : get_claim_data
+    Route::get('/{sep}', [GetKlaimDataController::class, 'handle'])->name('get.claim.data');
 
-    // // =====> method : get_claim_status
-    // Route::post('/status/{sep}', [GetKlaimStatusController::class, 'handle'])->name('get.claim.status');
+    // =====> method : get_claim_status
+    Route::get('/{sep}/status', [GetKlaimStatusController::class, 'handle'])->name('get.claim.status');
 
     // // =====> method : delete_claim
     // Route::post('/delete', [DeleteKlaimController::class, 'handle'])->name('delete.claim');
@@ -91,21 +91,21 @@ Route::as("e-klaim.")->middleware('api')->prefix('eklaim')->group(function () {
     //     Route::post('/status', [Covid19Controller::class, 'handle'])->name('status');
     // });
 
-    // Route::as('diagnosis.')->prefix('diagnosis')->group(function () {
-    //     // =====> method : search_diagnosis
-    //     Route::post('/search', [DiagnosisController::class, 'handle'])->name('search');
+    Route::as('diagnosis.')->prefix('diagnosis')->group(function () {
+        // =====> method : search_diagnosis
+        Route::post('/search', [DiagnosisController::class, 'handle'])->name('search');
 
-    //     // =====> method : search_diagnosis_inagrouper
-    //     Route::post('/search/ina', [DiagnosisInaController::class, 'handle'])->name('search.ina');
-    // });
+        // =====> method : search_diagnosis_inagrouper
+        Route::post('/search/ina', [DiagnosisInaController::class, 'handle'])->name('search.ina');
+    });
 
-    // Route::as('procedures.')->prefix('procedures')->group(function () {
-    //     // =====> method : search_procedures
-    //     Route::post('/search', [ProceduresController::class, 'handle'])->name('search');
+    Route::as('procedures.')->prefix('procedures')->group(function () {
+        // =====> method : search_procedures
+        Route::post('/search', [ProceduresController::class, 'handle'])->name('search');
 
-    //     // =====> method : search_procedures_inagrouper
-    //     Route::post('/search/ina', [ProceduresInaController::class, 'handle'])->name('search.ina');
-    // });
+        // =====> method : search_procedures_inagrouper
+        Route::post('/search/ina', [ProceduresInaController::class, 'handle'])->name('search.ina');
+    });
 
     // Route::as('file.')->prefix('file')->group(function () {
     //     // =====> method : file_get
