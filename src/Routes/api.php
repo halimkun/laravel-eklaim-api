@@ -40,8 +40,8 @@ Route::as("e-klaim.")->middleware('api')->prefix('eklaim')->group(function () {
     // =====> method : get_claim_status
     Route::get('/{sep}/status', [GetKlaimStatusController::class, 'handle'])->name('get.claim.status');
 
-    // // =====> method : delete_claim
-    // Route::post('/delete', [DeleteKlaimController::class, 'handle'])->name('delete.claim');
+    // =====> method : delete_claim
+    Route::delete('/{sep}', [DeleteKlaimController::class, 'handle'])->name('delete.claim');
 
     // // =====> method : reedit_claim
     // Route::post('/reedit', [ReEditKlaimController::class, 'handle'])->name('reedit.claim');
@@ -75,7 +75,7 @@ Route::as("e-klaim.")->middleware('api')->prefix('eklaim')->group(function () {
         Route::post('/{no_rekam_medis}', [PatientController::class, 'update'])->name('update');
 
         // =====> method : delete_patient
-        Route::delete('/{no_rekam_medis}/{coder_nik}', [PatientController::class, 'delete'])->name('delete');
+        Route::delete('/{no_rekam_medis}', [PatientController::class, 'delete'])->name('delete');
     });
 
     // Route::as('group.')->prefix('group')->group(function () {

@@ -34,15 +34,16 @@ class PatientController extends Controller
         return EklaimService::post($json);
     }
 
-    public function delete($no_rekam_medis, $coder)
+    public function delete($no_rekam_medis)
     {
+        $coders = \App\Models\RsiaCoderNik::all();
         $json = [
             "metadata" => [
                 "method"        => 'delete_patient'
             ],
             "data" => [
                 "nomor_rm"      => $no_rekam_medis,
-                "coder_nik"     => $coder
+                "coder_nik"     => $coders->random()->no_ik
             ]
         ];
 
