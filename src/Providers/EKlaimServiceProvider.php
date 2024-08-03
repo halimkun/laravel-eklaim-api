@@ -5,6 +5,7 @@ namespace FaisalHalim\LaravelEklaimApi\Providers;
 use Illuminate\Support\ServiceProvider;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
 use FaisalHalim\LaravelEklaimApi\Helpers\EKlaimCrypt;
+use Illuminate\Support\Facades\Artisan;
 
 class EKlaimServiceProvider extends ServiceProvider
 {
@@ -15,9 +16,9 @@ class EKlaimServiceProvider extends ServiceProvider
      * */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__ . '/../Routes/api.php');
-        $this->publishes([
-            __DIR__ . '/../Config/eklaim.php' => config_path('eklaim.php'),
+        // Register the EKlaimPublish command
+        $this->commands([
+            \FaisalHalim\LaravelEklaimApi\Commands\EKlaimPublish::class,
         ]);
     }
 
@@ -34,18 +35,16 @@ class EKlaimServiceProvider extends ServiceProvider
             return new EKlaimCrypt();
         });
 
-        // $this->app->singleton(EklaimService::class, function ($app) {
-        //     return new EklaimService(
-        //         config('eklaim.api_url'),
-        //         config('eklaim.secret_key'),
-        //         new EKlaimCrypt()
-        //     );
-        // });
-
+        // Configure the EKlaimService
         EklaimService::configure(
             config('eklaim.api_url'),
             config('eklaim.secret_key'),
             $this->app->make(EKlaimCrypt::class)
         );
+
+        // Register the EKlaimPublish command
+        $this->commands([
+            \FaisalHalim\LaravelEklaimApi\Commands\EKlaimPublish::class,
+        ]);
     }
 }

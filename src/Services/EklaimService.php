@@ -3,8 +3,9 @@
 namespace FaisalHalim\LaravelEklaimApi\Services;
 
 use FaisalHalim\LaravelEklaimApi\Helpers\EKlaimCrypt;
+use FaisalHalim\LaravelEklaimApi\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Response;
+use FaisalHalim\LaravelEklaimApi\Services\EklaimResponse;
 
 class EklaimService
 {
@@ -39,19 +40,19 @@ class EklaimService
      */
     public static function configure($apiUrl, $secretKey, EKlaimCrypt $encryptor)
     {
-        self::$apiUrl = $apiUrl;
+        self::$apiUrl    = $apiUrl;
         self::$secretKey = $secretKey;
         self::$encryptor = $encryptor;
     }
 
     /**
-     * Mengirim data yang dienkripsi ke API eklaim dan mengembalikan respons yang diproses.
+     * Mengirimkan data ke API E-KLAIM dan mengembalikan respons yang diterima.
      * 
      * @param array $data
      * @return mixed
      * @throws \Exception
      */
-    public static function post($data)
+    public static function send($data)
     {
         $encryptedData = self::$encryptor::encrypt(json_encode($data), self::$secretKey);
         $encryptedData = trim(preg_replace('/\s+/', '', $encryptedData));
@@ -61,31 +62,42 @@ class EklaimService
                 'Content-Type' => 'application/x-www-form-urlencoded',
             ])->post(self::$apiUrl, [$encryptedData]);
         } catch (\Throwable $th) {
-            \Log::channel(config('eklaim.log_channel', 'default'))->error("E-KLAIM API Error", [
-                'data' => $data,
+            \Log::channel(config('eklaim.log_channel'))->error("E-KLAIM API Error", [
+                'data'     => $data,
                 'response' => $th->getMessage(),
             ]);
 
-            if (config('eklaim.json_response')) {
-                return Response::json([
-                    'metadata' => [
-                        'code'    => 500,
-                        'message' => 'Internal Server Error',
-                    ]
-                ], 500);
-            }
-
-            throw new \Exception("Internal Server Error");
+            return self::response(ResponseHelper::error());
         }
 
-        $data = self::extractResponseData($response);
+        $data = self::extract($response);
 
         if (config('eklaim.decrypt_response', false)) {
             $data = self::$encryptor::decrypt($data, self::$secretKey);
         }
 
-        return config('eklaim.json_response', false) ? Response::json(json_decode($data), self::getResponseStatusCode($data)) : $data;
+        return self::response($data);
     }
+
+
+    /**
+     * Mengembalikan respons dalam format JSON dengan kode status yang sesuai.
+     * 
+     * @param string $data
+     * @return FaisalHalim\LaravelEklaimApi\Services\EklaimResponse
+     * */
+    protected static function response($data)
+    {
+        $decodedData = ResponseHelper::decode($data, true);
+        $statusCode = self::getResponseStatusCode($data);
+
+        if (config('eklaim.auto_response', false)) {
+            return new EklaimResponse($decodedData, $statusCode);
+        }
+
+        return $decodedData;
+    }
+
 
     /**
      * Mengekstrak data dari respons API dengan memotong bagian yang tidak diperlukan.
@@ -93,7 +105,7 @@ class EklaimService
      * @param string $response
      * @return string
      */
-    protected static function extractResponseData($response)
+    protected static function extract($response)
     {
         $first = strpos($response, "\n") + 1;
         $last = strrpos($response, "\n") - 1;
