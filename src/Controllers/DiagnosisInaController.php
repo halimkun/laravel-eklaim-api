@@ -23,6 +23,6 @@ class DiagnosisInaController extends Controller
             ]
         ];
 
-        return EklaimService::post($json);
+        return EklaimService::send($json);
     }
 }

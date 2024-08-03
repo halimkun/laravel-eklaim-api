@@ -31,7 +31,7 @@ class PatientController extends Controller
             ]
         ];
 
-        return EklaimService::post($json);
+        return EklaimService::send($json);
     }
 
     public function delete($no_rekam_medis)
@@ -47,6 +47,6 @@ class PatientController extends Controller
             ]
         ];
 
-        return EklaimService::post($json);
+        return EklaimService::send($json);
     }
 }

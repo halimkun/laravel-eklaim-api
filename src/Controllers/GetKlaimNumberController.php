@@ -16,6 +16,6 @@ class GetKlaimNumberController extends Controller
             ],
         ];
 
-        return EklaimService::post($json);
+        return EklaimService::send($json);
     }
 }

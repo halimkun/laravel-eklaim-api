@@ -341,6 +341,6 @@ class SetKlaimDataController extends Controller
 
         dd($postData);
 
-        return EklaimService::post($postData);
+        return EklaimService::send($postData);
     }
 }

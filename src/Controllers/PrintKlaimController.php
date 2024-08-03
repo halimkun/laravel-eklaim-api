@@ -19,7 +19,7 @@ class PrintKlaimController extends Controller
             ]
         ];
 
-        return EklaimService::post($json);
+        return EklaimService::send($json);
 
         // $d = EklaimService::post($json);
         // $pdf = $d->getData()->data;
