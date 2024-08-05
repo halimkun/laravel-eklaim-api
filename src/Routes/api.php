@@ -2,73 +2,59 @@
 
 use Illuminate\Support\Facades\Route;
 
+use FaisalHalim\LaravelEklaimApi\Controllers\SitbController;
+use FaisalHalim\LaravelEklaimApi\Controllers\KlaimController;
 use FaisalHalim\LaravelEklaimApi\Controllers\Covid19Controller;
-use FaisalHalim\LaravelEklaimApi\Controllers\DeleteKlaimController;
-use FaisalHalim\LaravelEklaimApi\Controllers\DiagnosisController;
-use FaisalHalim\LaravelEklaimApi\Controllers\DiagnosisInaController;
-use FaisalHalim\LaravelEklaimApi\Controllers\FinalKlaimController;
-use FaisalHalim\LaravelEklaimApi\Controllers\GetKlaimDataController;
-use FaisalHalim\LaravelEklaimApi\Controllers\GetKlaimNumberController;
-use FaisalHalim\LaravelEklaimApi\Controllers\GetKlaimStatusController;
-use FaisalHalim\LaravelEklaimApi\Controllers\GroupKlaimController;
-use FaisalHalim\LaravelEklaimApi\Controllers\NewKlaimController;
 use FaisalHalim\LaravelEklaimApi\Controllers\PatientController;
-use FaisalHalim\LaravelEklaimApi\Controllers\PrintKlaimController;
+use FaisalHalim\LaravelEklaimApi\Controllers\DiagnosisController;
+use FaisalHalim\LaravelEklaimApi\Controllers\GroupKlaimController;
 use FaisalHalim\LaravelEklaimApi\Controllers\ProceduresController;
-use FaisalHalim\LaravelEklaimApi\Controllers\ProceduresInaController;
-use FaisalHalim\LaravelEklaimApi\Controllers\PullKlaimController;
-use FaisalHalim\LaravelEklaimApi\Controllers\ReEditKlaimController;
-use FaisalHalim\LaravelEklaimApi\Controllers\SendKlaimController;
-use FaisalHalim\LaravelEklaimApi\Controllers\SendKlaimIndividualController;
-use FaisalHalim\LaravelEklaimApi\Controllers\SetKlaimDataController;
-use FaisalHalim\LaravelEklaimApi\Controllers\SitbInValidateController;
-use FaisalHalim\LaravelEklaimApi\Controllers\SitbValidateController;
 
 Route::as("e-klaim.")->middleware('api')->prefix('eklaim')->group(function () {
     // =====> method : new_claim
-    Route::post('/new', [NewKlaimController::class, 'handle'])->name('new.claim');
+    Route::post('/new', [KlaimController::class, 'new'])->name('new.claim');
 
-    // =====> method : set_claim_data
-    Route::post('/{sep}', [SetKlaimDataController::class, 'handle'])->name('set.claim.data');
+    // =====> method : send_claim
+    Route::post('/send', [KlaimController::class, 'sendBulk'])->name('send.claim');
 
-    // =====> method : generate_claim_number
-    Route::get('/get/number', [GetKlaimNumberController::class, 'handle'])->name('get.claim.number');
+    // =====> method : claim_final
+    Route::post('/final', [KlaimController::class, 'final'])->name('final.claim');
 
-    // =====> method : get_claim_data
-    Route::get('/{sep}', [GetKlaimDataController::class, 'handle'])->name('get.claim.data');
-
-    // =====> method : get_claim_status
-    Route::get('/{sep}/status', [GetKlaimStatusController::class, 'handle'])->name('get.claim.status');
-
-    // =====> method : delete_claim
-    Route::delete('/{sep}', [DeleteKlaimController::class, 'handle'])->name('delete.claim');
-
-    // =====> method : reedit_claim
-    Route::post('/{sep}/re-edit', [ReEditKlaimController::class, 'handle'])->name('reedit.claim');
-
-    // // =====> method : send_claim
-    // Route::post('/send', [SendKlaimController::class, 'handle'])->name('send.claim');
-
-    // =====> method : send_claim_individual
-    Route::post('/send/{sep}', [SendKlaimIndividualController::class, 'handle'])->name('send.claim.individual');
-
-    // =====> method : claim_print
-    Route::get('/{sep}/print', [PrintKlaimController::class, 'handle'])->name('print.claim');
-
-    // // =====> method : pull_claim
+    // =====> method : pull_claim || =====>  method sudah ditutup (Manual Web Service 5.8.3b)
     // Route::post('/pull', [PullKlaimController::class, 'handle'])->name('pull.claim');
 
-    // // =====> method : claim_final
-    // Route::post('/final', [FinalKlaimController::class, 'handle'])->name('final.claim');
+    // =====> method : set_claim_data
+    Route::post('/{sep}', [KlaimController::class, 'set'])->name('set.claim.data');
+
+    // =====> method : generate_claim_number
+    Route::get('/get/number', [KlaimController::class, 'generateNumber'])->name('get.claim.number');
+
+    // =====> method : get_claim_data
+    Route::get('/{sep}', [KlaimController::class, 'get'])->name('get.claim.data');
+
+    // =====> method : get_claim_status
+    Route::get('/{sep}/status', [KlaimController::class, 'getStatus'])->name('get.claim.status');
+
+    // =====> method : reedit_claim
+    Route::get('/{sep}/re-edit', [KlaimController::class, 'reEdit'])->name('reedit.claim');
+
+    // =====> method : send_claim_individual
+    Route::get('/{sep}/send', [KlaimController::class, 'send'])->name('send.claim.individual');
+
+    // =====> method : claim_print
+    Route::get('/{sep}/print', [KlaimController::class, 'print'])->name('print.claim');
+
+    // =====> method : delete_claim
+    Route::delete('/{sep}', [KlaimController::class, 'delete'])->name('delete.claim');
 
 
-    // Route::as('sitb.')->prefix('sitb')->group(function () {
-    //     // =====> method : sitb_validate
-    //     Route::post('/validate', [SitbValidateController::class, 'handle'])->name('validate');
+    Route::as('sitb.')->prefix('sitb')->group(function () {
+        // =====> method : sitb_validate
+        Route::post('/validate', [SitbController::class, 'validateSitb'])->name('validate');
 
-    //     // =====> method : sitb_invalidate
-    //     Route::post('/invalidate/{sep}', [SitbInValidateController::class, 'handle'])->name('invalidate');
-    // });
+        // =====> method : sitb_invalidate
+        Route::post('/invalidate/{sep}', [SitbController::class, 'inValidateSitb'])->name('invalidate');
+    });
 
     Route::as('patient.')->prefix('patient')->group(function () {
         // =====> method : update_patient
@@ -78,13 +64,13 @@ Route::as("e-klaim.")->middleware('api')->prefix('eklaim')->group(function () {
         Route::delete('/{no_rekam_medis}', [PatientController::class, 'delete'])->name('delete');
     });
 
-    // Route::as('group.')->prefix('group')->group(function () {
-    //     // =====> method : grouper, stage:  1
-    //     Route::post('/stage/1', [GroupKlaimController::class, 'stage1'])->name('stage.1');
+    Route::as('group.')->prefix('group')->group(function () {
+        // =====> method : grouper, stage:  1
+        Route::post('/stage/1', [GroupKlaimController::class, 'stage1'])->name('stage.1');
 
-    //     // =====> method : grouper, stage:  2
-    //     Route::post('/stage/2', [GroupKlaimController::class, 'stage2'])->name('stage.2');
-    // });
+        // =====> method : grouper, stage:  2
+        Route::post('/stage/2', [GroupKlaimController::class, 'stage2'])->name('stage.2');
+    });
 
     // Route::as('covid19.')->prefix('covid19')->group(function () {
     //     // =====> method : search_diagnosis
@@ -93,18 +79,18 @@ Route::as("e-klaim.")->middleware('api')->prefix('eklaim')->group(function () {
 
     Route::as('diagnosis.')->prefix('diagnosis')->group(function () {
         // =====> method : search_diagnosis
-        Route::post('/search', [DiagnosisController::class, 'handle'])->name('search');
+        Route::post('/search', [DiagnosisController::class, 'search'])->name('search');
 
         // =====> method : search_diagnosis_inagrouper
-        Route::post('/search/ina', [DiagnosisInaController::class, 'handle'])->name('search.ina');
+        Route::post('/search/ina', [DiagnosisController::class, 'searchIna'])->name('search.ina');
     });
 
     Route::as('procedures.')->prefix('procedures')->group(function () {
         // =====> method : search_procedures
-        Route::post('/search', [ProceduresController::class, 'handle'])->name('search');
+        Route::post('/search', [ProceduresController::class, 'search'])->name('search');
 
         // =====> method : search_procedures_inagrouper
-        Route::post('/search/ina', [ProceduresInaController::class, 'handle'])->name('search.ina');
+        Route::post('/search/ina', [ProceduresController::class, 'searchIna'])->name('search.ina');
     });
 
     // Route::as('file.')->prefix('file')->group(function () {

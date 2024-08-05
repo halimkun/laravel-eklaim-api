@@ -5,9 +5,17 @@ namespace FaisalHalim\LaravelEklaimApi\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
+use FaisalHalim\LaravelEklaimApi\Services\EklaimBodyService;
 
 class PatientController extends Controller
 {
+    /**
+     * Update patient information.
+     *
+     * @param string $no_rekam_medis
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function update($no_rekam_medis, Request $request)
     {
         $request->validate([
@@ -17,36 +25,34 @@ class PatientController extends Controller
             "gender"        => "required|in:1,2",                       // 1: Laki-laki, 2: Perempuan
         ]);
 
-        $json = [
-            "metadata" => [
-                "method"        => 'update_patient',
-                "nomor_rm"      => $no_rekam_medis
-            ],
-            "data" => [
-                "nomor_kartu"   => $request->nomor_kartu,
-                "nomor_rm"      => $no_rekam_medis,
-                "nama_pasien"   => $request->nama_pasien,
-                "tgl_lahir"     => $request->tgl_lahir,
-                "gender"        => $request->gender
-            ]
-        ];
+        EklaimBodyService::setMetadata('update_patient', [ "nomor_rm" => $no_rekam_medis ]);
+        EklaimBodyService::setData([
+            "nomor_kartu"   => $request->nomor_kartu,
+            "nomor_rm"      => $no_rekam_medis,
+            "nama_pasien"   => $request->nama_pasien,
+            "tgl_lahir"     => $request->tgl_lahir,
+            "gender"        => $request->gender
+        ]);
 
-        return EklaimService::send($json);
+        return EklaimService::send(EklaimBodyService::prepared());
     }
 
+    /**
+     * Delete patient information.
+     *
+     * @param string $no_rekam_medis
+     * @return \Illuminate\Http\Response
+     */
     public function delete($no_rekam_medis)
     {
         $coders = \App\Models\RsiaCoderNik::all();
-        $json = [
-            "metadata" => [
-                "method"        => 'delete_patient'
-            ],
-            "data" => [
-                "nomor_rm"      => $no_rekam_medis,
-                "coder_nik"     => $coders->random()->no_ik
-            ]
-        ];
+        
+        EklaimBodyService::setMetadata('delete_patient');
+        EklaimBodyService::setData([
+            "nomor_rm"      => $no_rekam_medis,
+            "coder_nik"     => $coders->random()->no_ik
+        ]);
 
-        return EklaimService::send($json);
+        return EklaimService::send(EklaimBodyService::prepared());
     }
 }

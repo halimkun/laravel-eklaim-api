@@ -8,7 +8,7 @@ use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
 
 class DiagnosisController extends Controller
 {
-    public function handle(Request $request)
+    public function search(Request $request)
     {
         $request->validate([
             'search.value' => 'required|string',
@@ -17,6 +17,24 @@ class DiagnosisController extends Controller
         $json = [
             "metadata" => [
                 "method" => 'search_diagnosis'
+            ],
+            "data" => [
+                "keyword" => $request->input('search.value')
+            ]
+        ];
+
+        return EklaimService::send($json);
+    }
+
+    public function searchIna(Request $request)
+    {
+        $request->validate([
+            'search.value' => 'required|string',
+        ]);
+
+        $json = [
+            "metadata" => [
+                "method" => 'search_diagnosis_inagrouper'
             ],
             "data" => [
                 "keyword" => $request->input('search.value')

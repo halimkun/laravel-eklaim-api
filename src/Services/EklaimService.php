@@ -95,7 +95,7 @@ class EklaimService
             return new EklaimResponse($decodedData, $statusCode);
         }
 
-        return $decodedData;
+        return response($decodedData, $statusCode);
     }
 
 

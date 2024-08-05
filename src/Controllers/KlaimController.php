@@ -4,11 +4,57 @@ namespace FaisalHalim\LaravelEklaimApi\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use FaisalHalim\LaravelEklaimApi\Services\EklaimBodyService;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
 
-class SetKlaimDataController extends Controller
+/**
+ * Menangani permintaan untuk membuat klaim baru dengan API E-KLAIM.
+ * 
+ * Validasi dilakukan pada data permintaan untuk memastikan semua
+ * informasi yang diperlukan ada dan dalam format yang benar. Setelah
+ * validasi berhasil, data dikemas dalam format JSON dan dikirim ke
+ * API E-KLAIM menggunakan layanan EklaimService.
+ *
+ * @param \Illuminate\Http\Request $request
+ * @return \Illuminate\Http\Response
+ */
+class KlaimController extends Controller
 {
-    public function handle($sep, Request $request)
+    public function new(Request $request)
+    {
+        $request->validate([
+            "nomor_kartu"   => "required",
+            "nomor_sep"     => "required",
+            "nomor_rm"      => "required",
+            "nama_pasien"   => "required",
+            "tgl_lahir"     => "required|date_format:Y-m-d H:i:s",
+            "gender"        => "required|in:1,2",                       // 1: Laki-laki, 2: Perempuan
+        ]);
+
+        EklaimBodyService::setMetadata('new_claim');
+        EklaimBodyService::setData([
+            "nomor_kartu"   => $request->nomor_kartu,
+            "nomor_sep"     => $request->nomor_sep,
+            "nomor_rm"      => $request->nomor_rm,
+            "nama_pasien"   => $request->nama_pasien,
+            "tgl_lahir"     => $request->tgl_lahir,
+            "gender"        => $request->gender
+        ]);
+
+        return EklaimService::send(EklaimBodyService::prepared());
+    }
+
+    public function get($sep)
+    {
+        EklaimBodyService::setMetadata('get_claim_data');
+        EklaimBodyService::setData([
+            "nomor_sep" => $sep
+        ]);
+
+        return EklaimService::send(EklaimBodyService::prepared());
+    }
+
+    public function set($sep, Request $request)
     {
         $request->validate([
             "coder_nik"                 => "required|numeric|digits:16",        // mandatory
@@ -18,14 +64,14 @@ class SetKlaimDataController extends Controller
             "cara_masuk"                => "in:gp,hosp-trans,mp,outp,inp,emd,born,nursing,psych,rehab,other",
             "jenis_rawat"               => "numeric|in:1,2,3",                          // 1: Rawat Inap, 2: Rawat Jalan, 3: Rawat IGD
             "kelas_rawat"               => "numeric|in:1,2,3",
-            
+
             "adl_sub_acute"             => "numeric|between:12,60",
             "adl_chronic"               => "numeric|between:12,60",
-            
+
             "icu_indikator"             => "numeric|in:0,1",
             "icu_los"                   => "numeric",
             // "ventilator_hour"           => "numeric",
-            
+
             // ==== ventilator
             "use_ind"                   => "numeric|in:0,1",
             "start_dttm"                => "date_format:Y-m-d H:i:s",
@@ -39,16 +85,16 @@ class SetKlaimDataController extends Controller
             "upgrade_class_payor"       => "in:peserta,pemberi_kerja,asuransi_tambahan",
 
             "birth_weight"              => "numeric",
-            
+
             "sistole"                   => "numeric",
             "diastole"                  => "numeric",
-            
+
             "discharge_status"          => "numeric|in:1,2,3,4,5",                  // 1: Atas persetujuan dokter, 2: Dirujuk, 3: Atas permintaan sendiri, 4: Meninggal, 5: Lain-lain
 
-            "diagnosa"                  => "string",                                // INFO : dobel cek dokumentasi
-            "procedure"                 => "string",                                // INFO : dobel cek dokumentasi
-            "diagnosa_inagrouper"       => "string",                                // INFO : dobel cek dokumentasi
-            "procedure_inagrouper"      => "string",                                // INFO : dobel cek dokumentasi
+            "diagnosa"                  => "array",                                // INFO : dobel cek dokumentasi
+            "procedure"                 => "array",                                // INFO : dobel cek dokumentasi
+            "diagnosa_inagrouper"       => "array",                                // INFO : dobel cek dokumentasi
+            "procedure_inagrouper"      => "array",                                // INFO : dobel cek dokumentasi
 
             // ==== tarif_rs
             "prosedur_non_bedah"        => "numeric",
@@ -105,7 +151,7 @@ class SetKlaimDataController extends Controller
 
             // INFO : Tidak diperlukan per 1 Oktober 2021 (Manual Web Service 5.8.3b)
             // "akses_naat"                => "in:0,1",
-            
+
             "isoman_ind"                => "numeric|in:0,1",
 
             "bayi_lahir_status_cd"      => "in:1,2",
@@ -115,14 +161,14 @@ class SetKlaimDataController extends Controller
 
             // ==== apgar
             // ==== / end apgar
-            
+
             // ==== persalinan
             "usia_kehamilan"            => "numeric",
             "gravida"                   => "numeric",
             "partus"                    => "numeric",
             "abortus"                   => "numeric",
             "onset_kontraksi"           => "in:spontan,induksi,non_spontan_non_induksi",
-            
+
             // ==== delivery
             // ==== / end delivery
 
@@ -131,7 +177,7 @@ class SetKlaimDataController extends Controller
             "tarif_poli_eks"            => "numeric",
             "nama_dokter"               => "string",
             "kode_tarif"                => "string|in:AP,AS,BP,BS,CP,CS,DP,DS,RSCM,RSJP,RSD,RSAB",
-            
+
             "payor_id"                  => "required|numeric",
             "payor_cd"                  => "required",
         ]);
@@ -249,7 +295,8 @@ class SetKlaimDataController extends Controller
         $procedureDiagnosa = ['diagnosa', 'procedure', 'diagnosa_inagrouper', 'procedure_inagrouper'];
         foreach ($procedureDiagnosa as $pd) {
             if ($request->has($pd)) {
-                $data[$pd] = $request->input($pd);
+                $imploded = implode('#', $request->input($pd));
+                $data[$pd] = $imploded;
             }
         }
 
@@ -300,7 +347,7 @@ class SetKlaimDataController extends Controller
         // if ($request->has('dializer_single_use')) {
         //     $data['dializer_single_use'] = $request->dializer_single_use;
         // }
-        
+
         if ($request->has('pelayanan_darah')) {
             if ($request->pelayanan_darah > 0) {
                 $request->validate([
@@ -339,8 +386,111 @@ class SetKlaimDataController extends Controller
             "data"     => $data
         ];
 
-        dd($postData);
-
         return EklaimService::send($postData);
+    }
+
+    public function delete($sep, Request $request)
+    {
+        $request->validate([
+            "coder_nik" => "required|numeric|digits:16"
+        ]);
+
+        EklaimBodyService::setMetadata('delete_claim');
+        EklaimBodyService::setData([
+            "nomor_sep" => $sep,
+            "coder_nik" => $request->coder_nik
+        ]);
+
+        return EklaimService::send(EklaimBodyService::prepared());
+    }
+
+    public function sendBulk(Request $request)
+    {
+        $request->validate([
+            'start_dt'    => 'required|date|date_format:Y-m-d',
+            'stop_dt'     => 'required|date|date_format:Y-m-d',
+            'jenis_rawat' => 'required|string|in:1,2,3',        // 1: Rawat Jalan, 2: Rawat Inap, 3: Rawat Inap & Jalan
+            'date_type'   => 'required|string|in:1,2',          // 1: Tanggal Pulang, 2: Tanggal Grouping
+        ]);
+
+        EklaimBodyService::setMetadata('send_claim');
+        EklaimBodyService::setData([
+            "start_dt"    => $request->start_dt,
+            "stop_dt"     => $request->stop_dt,
+            "jenis_rawat" => $request->jenis_rawat,
+            "date_type"   => $request->date_type
+        ]);
+
+        return EklaimService::send(EklaimBodyService::prepared());
+    }
+
+    public function send($sep)
+    {
+        EklaimBodyService::setMetadata('send_claim_individual');
+        EklaimBodyService::setData([
+            "nomor_sep" => $sep
+        ]);
+
+        return EklaimService::send(EklaimBodyService::prepared());
+    }
+
+    public function final(Request $request)
+    {
+        $request->validate([
+            'nomor_sep'   => 'required|string',
+            'coder_nik'   => 'required|string',
+        ]);
+
+        EklaimBodyService::setMetadata('claim_final');
+        EklaimBodyService::setData([
+            "nomor_sep" => $request->nomor_sep,
+            "coder_nik" => $request->coder_nik
+        ]);
+
+        return EklaimService::send(EklaimBodyService::prepared());
+    }
+
+    public function getStatus($sep)
+    {
+        EklaimBodyService::setMetadata('get_claim_status');
+        EklaimBodyService::setData([
+            "nomor_sep" => $sep
+        ]);
+
+        return EklaimService::send(EklaimBodyService::prepared());
+    }
+
+    public function reEdit($sep)
+    {
+        EklaimBodyService::setMetadata('reedit_claim');
+        EklaimBodyService::setData([
+            "nomor_sep" => $sep
+        ]);
+
+        return EklaimService::send(EklaimBodyService::prepared());
+    }
+
+    public function generateNumber()
+    {
+        EklaimBodyService::setMetadata('generate_claim_number');
+        return EklaimService::send(EklaimBodyService::prepared());
+    }
+
+    public function print($sep)
+    {
+        EklaimBodyService::setMetadata('claim_print');
+        EklaimBodyService::setData([
+            "nomor_sep" => $sep
+        ]);
+
+        return EklaimService::send(EklaimBodyService::prepared());
+
+        // $d = EklaimService::post($json);
+        // $pdf = $d->getData()->data;
+
+        // // pdf is base64 encoded, so we need to decode it and render it
+        // $pdf = base64_decode($pdf);
+
+        // return response($pdf)->header('Content-Type', 'application/pdf');
     }
 }
