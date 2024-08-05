@@ -53,7 +53,7 @@ Route::as("e-klaim.")->middleware('api')->prefix('eklaim')->group(function () {
         Route::post('/validate', [SitbController::class, 'validateSitb'])->name('validate');
 
         // =====> method : sitb_invalidate
-        Route::post('/invalidate/{sep}', [SitbController::class, 'inValidateSitb'])->name('invalidate');
+        Route::get('/invalidate/{sep}', [SitbController::class, 'inValidateSitb'])->name('invalidate');
     });
 
     Route::as('patient.')->prefix('patient')->group(function () {
