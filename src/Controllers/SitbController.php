@@ -3,7 +3,7 @@
 namespace FaisalHalim\LaravelEklaimApi\Controllers;
 
 use App\Http\Controllers\Controller;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimBodyService;
+use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
 use Illuminate\Http\Request;
 
@@ -16,22 +16,22 @@ class SitbController extends Controller
             'nomor_register_sitb' => 'required|string',
         ]);
 
-        EklaimBodyService::setMetadata('sitb_validate');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('sitb_validate');
+        BodyBuilder::setData([
             'nomor_sep'           => $request->nomor_sep,
             'nomor_register_sitb' => $request->nomor_register_sitb,
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     public function inValidateSitb($sep)
     {
-        EklaimBodyService::setMetadata('sitb_invalidate');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('sitb_invalidate');
+        BodyBuilder::setData([
             'nomor_sep'           => $sep
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 }

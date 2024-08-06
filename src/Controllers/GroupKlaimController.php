@@ -3,7 +3,7 @@
 namespace FaisalHalim\LaravelEklaimApi\Controllers;
 
 use App\Http\Controllers\Controller;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimBodyService;
+use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
 use Illuminate\Http\Request;
 
@@ -21,12 +21,12 @@ class GroupKlaimController extends Controller
             "nomor_sep" => "required|string",
         ]);
 
-        EklaimBodyService::setMetadata('grouper', ["stage" => 1]);
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('grouper', ["stage" => 1]);
+        BodyBuilder::setData([
             "nomor_sep" => $request->nomor_sep,
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     /**
@@ -42,12 +42,12 @@ class GroupKlaimController extends Controller
             "special_cmg" => "array",
         ]);
 
-        EklaimBodyService::setMetadata('grouper', ["stage" => 2]);
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('grouper', ["stage" => 2]);
+        BodyBuilder::setData([
             "nomor_sep" => $request->nomor_sep,
             "special_cmg" => $request->special_cmg,
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 }

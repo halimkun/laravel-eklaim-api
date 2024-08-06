@@ -5,7 +5,7 @@ namespace FaisalHalim\LaravelEklaimApi\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimBodyService;
+use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
 
 class PatientController extends Controller
 {
@@ -25,8 +25,8 @@ class PatientController extends Controller
             "gender"        => "required|in:1,2",                       // 1: Laki-laki, 2: Perempuan
         ]);
 
-        EklaimBodyService::setMetadata('update_patient', [ "nomor_rm" => $no_rekam_medis ]);
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('update_patient', [ "nomor_rm" => $no_rekam_medis ]);
+        BodyBuilder::setData([
             "nomor_kartu"   => $request->nomor_kartu,
             "nomor_rm"      => $no_rekam_medis,
             "nama_pasien"   => $request->nama_pasien,
@@ -34,7 +34,7 @@ class PatientController extends Controller
             "gender"        => $request->gender
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     /**
@@ -47,12 +47,12 @@ class PatientController extends Controller
     {
         $coders = \App\Models\RsiaCoderNik::all();
         
-        EklaimBodyService::setMetadata('delete_patient');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('delete_patient');
+        BodyBuilder::setData([
             "nomor_rm"      => $no_rekam_medis,
             "coder_nik"     => $coders->random()->no_ik
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 }

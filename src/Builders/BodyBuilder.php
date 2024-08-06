@@ -1,8 +1,8 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Services;
+namespace FaisalHalim\LaravelEklaimApi\Builders;
 
-class EklaimBodyService
+class BodyBuilder
 {
     /**
      * Static property to hold metadata.

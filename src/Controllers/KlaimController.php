@@ -4,7 +4,7 @@ namespace FaisalHalim\LaravelEklaimApi\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimBodyService;
+use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
 
 /**
@@ -31,8 +31,8 @@ class KlaimController extends Controller
             "gender"        => "required|in:1,2",                       // 1: Laki-laki, 2: Perempuan
         ]);
 
-        EklaimBodyService::setMetadata('new_claim');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('new_claim');
+        BodyBuilder::setData([
             "nomor_kartu"   => $request->nomor_kartu,
             "nomor_sep"     => $request->nomor_sep,
             "nomor_rm"      => $request->nomor_rm,
@@ -41,17 +41,17 @@ class KlaimController extends Controller
             "gender"        => $request->gender
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     public function get($sep)
     {
-        EklaimBodyService::setMetadata('get_claim_data');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('get_claim_data');
+        BodyBuilder::setData([
             "nomor_sep" => $sep
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     public function set($sep, Request $request)
@@ -91,10 +91,10 @@ class KlaimController extends Controller
 
             "discharge_status"          => "numeric|in:1,2,3,4,5",                  // 1: Atas persetujuan dokter, 2: Dirujuk, 3: Atas permintaan sendiri, 4: Meninggal, 5: Lain-lain
 
-            "diagnosa"                  => "array",                                // INFO : dobel cek dokumentasi
-            "procedure"                 => "array",                                // INFO : dobel cek dokumentasi
-            "diagnosa_inagrouper"       => "array",                                // INFO : dobel cek dokumentasi
-            "procedure_inagrouper"      => "array",                                // INFO : dobel cek dokumentasi
+            "diagnosa"                  => "array",
+            "procedure"                 => "array",
+            "diagnosa_inagrouper"       => "array",
+            "procedure_inagrouper"      => "array",
 
             // ==== tarif_rs
             "prosedur_non_bedah"        => "numeric",
@@ -395,13 +395,13 @@ class KlaimController extends Controller
             "coder_nik" => "required|numeric|digits:16"
         ]);
 
-        EklaimBodyService::setMetadata('delete_claim');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('delete_claim');
+        BodyBuilder::setData([
             "nomor_sep" => $sep,
             "coder_nik" => $request->coder_nik
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     public function sendBulk(Request $request)
@@ -413,25 +413,25 @@ class KlaimController extends Controller
             'date_type'   => 'required|string|in:1,2',          // 1: Tanggal Pulang, 2: Tanggal Grouping
         ]);
 
-        EklaimBodyService::setMetadata('send_claim');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('send_claim');
+        BodyBuilder::setData([
             "start_dt"    => $request->start_dt,
             "stop_dt"     => $request->stop_dt,
             "jenis_rawat" => $request->jenis_rawat,
             "date_type"   => $request->date_type
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     public function send($sep)
     {
-        EklaimBodyService::setMetadata('send_claim_individual');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('send_claim_individual');
+        BodyBuilder::setData([
             "nomor_sep" => $sep
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     public function final(Request $request)
@@ -441,49 +441,49 @@ class KlaimController extends Controller
             'coder_nik'   => 'required|string',
         ]);
 
-        EklaimBodyService::setMetadata('claim_final');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('claim_final');
+        BodyBuilder::setData([
             "nomor_sep" => $request->nomor_sep,
             "coder_nik" => $request->coder_nik
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     public function getStatus($sep)
     {
-        EklaimBodyService::setMetadata('get_claim_status');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('get_claim_status');
+        BodyBuilder::setData([
             "nomor_sep" => $sep
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     public function reEdit($sep)
     {
-        EklaimBodyService::setMetadata('reedit_claim');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('reedit_claim');
+        BodyBuilder::setData([
             "nomor_sep" => $sep
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     public function generateNumber()
     {
-        EklaimBodyService::setMetadata('generate_claim_number');
-        return EklaimService::send(EklaimBodyService::prepared());
+        BodyBuilder::setMetadata('generate_claim_number');
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
     public function print($sep)
     {
-        EklaimBodyService::setMetadata('claim_print');
-        EklaimBodyService::setData([
+        BodyBuilder::setMetadata('claim_print');
+        BodyBuilder::setData([
             "nomor_sep" => $sep
         ]);
 
-        return EklaimService::send(EklaimBodyService::prepared());
+        return EklaimService::send(BodyBuilder::prepared());
 
         // $d = EklaimService::post($json);
         // $pdf = $d->getData()->data;
