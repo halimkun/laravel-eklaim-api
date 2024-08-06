@@ -2,45 +2,42 @@
 
 namespace FaisalHalim\LaravelEklaimApi\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
+use FaisalHalim\LaravelEklaimApi\Http\Requests\DiagnosisRequest;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
 
 class DiagnosisController extends Controller
 {
-    public function search(Request $request)
+    /**
+     * Search diagnosis.
+     * 
+     * @param \FaisalHalim\LaravelEklaimApi\Http\Requests\DiagnosisRequest $request
+     * @return \Illuminate\Http\Response
+     * */
+    public function search(DiagnosisRequest $request)
     {
-        $request->validate([
-            'search.value' => 'required|string',
+        BodyBuilder::setMetadata('search_diagnosis');
+        BodyBuilder::setData([
+            "keyword" => $request->input('search.value')
         ]);
 
-        $json = [
-            "metadata" => [
-                "method" => 'search_diagnosis'
-            ],
-            "data" => [
-                "keyword" => $request->input('search.value')
-            ]
-        ];
-
-        return EklaimService::send($json);
+        return EklaimService::send(BodyBuilder::prepared());
     }
 
-    public function searchIna(Request $request)
+    /**
+     * Search diagnosis ina grouper.
+     * 
+     * @param \FaisalHalim\LaravelEklaimApi\Http\Requests\DiagnosisRequest $request
+     * @return \Illuminate\Http\Response
+     * */
+    public function searchIna(DiagnosisRequest $request)
     {
-        $request->validate([
-            'search.value' => 'required|string',
+        BodyBuilder::setMetadata('search_diagnosis_inagrouper');
+        BodyBuilder::setData([
+            "keyword" => $request->input('search.value')
         ]);
 
-        $json = [
-            "metadata" => [
-                "method" => 'search_diagnosis_inagrouper'
-            ],
-            "data" => [
-                "keyword" => $request->input('search.value')
-            ]
-        ];
-
-        return EklaimService::send($json);
+        return EklaimService::send(BodyBuilder::prepared());
     }
 }

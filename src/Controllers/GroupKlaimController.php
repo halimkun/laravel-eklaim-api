@@ -4,6 +4,8 @@ namespace FaisalHalim\LaravelEklaimApi\Controllers;
 
 use App\Http\Controllers\Controller;
 use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
+use FaisalHalim\LaravelEklaimApi\Http\Requests\GroupingStage1Request;
+use FaisalHalim\LaravelEklaimApi\Http\Requests\GroupingStage2Request;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
 use Illuminate\Http\Request;
 
@@ -12,15 +14,11 @@ class GroupKlaimController extends Controller
     /**
      * Menangani tahap pertama dari proses grouping.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \FaisalHalim\LaravelEklaimApi\Http\Requests\GroupingStage1Request $request
      * @return \Illuminate\Http\Response
      */
-    public function stage1(Request $request)
+    public function stage1(GroupingStage1Request $request)
     {
-        $request->validate([
-            "nomor_sep" => "required|string",
-        ]);
-
         BodyBuilder::setMetadata('grouper', ["stage" => 1]);
         BodyBuilder::setData([
             "nomor_sep" => $request->nomor_sep,
@@ -32,16 +30,11 @@ class GroupKlaimController extends Controller
     /**
      * Menangani tahap kedua dari proses grouping.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \FaisalHalim\LaravelEklaimApi\Http\Requests\GroupingStage2Request $request
      * @return \Illuminate\Http\Response
      */
-    public function stage2(Request $request)
+    public function stage2(GroupingStage2Request $request)
     {
-        $request->validate([
-            "nomor_sep" => "required|string",
-            "special_cmg" => "array",
-        ]);
-
         BodyBuilder::setMetadata('grouper', ["stage" => 2]);
         BodyBuilder::setData([
             "nomor_sep" => $request->nomor_sep,

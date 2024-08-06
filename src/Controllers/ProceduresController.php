@@ -4,17 +4,14 @@ namespace FaisalHalim\LaravelEklaimApi\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use FaisalHalim\LaravelEklaimApi\Http\Requests\ProcedureRequest;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
 
 class ProceduresController extends Controller
 {
-    public function search(Request $request)
+    public function search(ProcedureRequest $request)
     {
-        $request->validate([
-            'search.value' => 'required|string',
-        ]);
-
-        $json = [
+       $json = [
             "metadata" => [
                 "method" => 'search_procedures'
             ],
@@ -26,13 +23,9 @@ class ProceduresController extends Controller
         return EklaimService::send($json);
     }
 
-    public function searchIna(Request $request)
+    public function searchIna(ProcedureRequest $request)
     {
-        $request->validate([
-            'search.value' => 'required|string',
-        ]);
-
-        $json = [
+       $json = [
             "metadata" => [
                 "method" => 'search_procedures_inagrouper'
             ],
