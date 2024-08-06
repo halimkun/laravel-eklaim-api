@@ -1,6 +1,6 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Services;
+namespace FaisalHalim\LaravelEklaimApi\Http\Responses;
 
 use Illuminate\Http\JsonResponse;
 

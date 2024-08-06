@@ -5,7 +5,7 @@ namespace FaisalHalim\LaravelEklaimApi\Services;
 use FaisalHalim\LaravelEklaimApi\Helpers\EKlaimCrypt;
 use FaisalHalim\LaravelEklaimApi\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\Http;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimResponse;
+use FaisalHalim\LaravelEklaimApi\Http\Responses\EklaimResponse;
 
 class EklaimService
 {
