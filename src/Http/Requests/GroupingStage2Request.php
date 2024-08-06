@@ -14,7 +14,7 @@ class GroupingStage2Request extends FormRequest
     public function rules()
     {
         return [
-            "nomor_sep" => "required|string",
+            "nomor_sep"   => "required|alpha_num",
             "special_cmg" => "array",
         ];
     }

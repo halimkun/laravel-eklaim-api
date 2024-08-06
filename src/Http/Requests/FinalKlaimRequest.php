@@ -4,7 +4,7 @@ namespace FaisalHalim\LaravelEklaimApi\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GroupingStage1Request extends FormRequest
+class FinalKlaimRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,7 +14,8 @@ class GroupingStage1Request extends FormRequest
     public function rules()
     {
         return [
-            "nomor_sep" => "required|alpha_num",
+            "nomor_sep"   => "required|alpha_num",
+            "coder_nik"   => "required|string",
         ];
     }
 }
