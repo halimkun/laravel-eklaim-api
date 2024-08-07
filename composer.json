@@ -1,18 +1,22 @@
 {
     "name": "halim/laravel-eklaim-api",
-    "description": "Package for integrating BPJS E-Klaim API",
+    "description": "A Laravel package to simplify the integration with BPJS e-Klaim web service. This package helps developers build APIs to interact with the e-Klaim system, providing features such as custom SHA-256 encryption and decryption, type-checking for incoming data, and more.",
     "license": "MIT",
     "keywords": [
         "laravel",
         "e-klaim",
         "eklaim",
         "bpjs",
-        "api"
+        "api",
+        "webservice",
+        "healthcare",
+        "php"
     ],
     "authors": [
         {
             "name": "Faisal Halim",
-            "email": "ffaisalhalim@gmail.com"
+            "email": "ffaisalhalim@gmail.com",
+            "role": "Developer"
         },
         {
             "name": "Ferry Ardiansyah",
@@ -24,15 +28,20 @@
         }
     ],
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^7.3|^8.0|^8.1",
         "illuminate/support": "^8.0|^9.0|^10.0",
         "illuminate/console": "^8.0|^9.0|^10.0",
         "illuminate/http": "^8.0|^9.0|^10.0",
-        "Illuminate/Foundation": "^8.0|^9.0|^10.0"
+        "Illuminate/foundation": "^8.0|^9.0|^10.0"
     },
     "autoload": {
         "psr-4": {
             "Halim\\EKlaim\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Halim\\EKlaim\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -43,5 +52,14 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "test": "phpunit"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/halimkun/laravel-eklaim-api.git"
+        }
+    ]
 }

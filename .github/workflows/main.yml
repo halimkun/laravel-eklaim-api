@@ -1,4 +1,4 @@
-name: Test Laravel E-Klaim API Package
+name: Test Compatibility
 
 on:
   push:
@@ -11,21 +11,42 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        php: [7.3, 7.4, 8.0, 8.1]
-        laravel: [8.*, 9.*, 10.*]
+        php-version: ['7.4', '8.0', '8.1']
+        laravel-version: ['8', '9', '10']
+      fail-fast: false
+    env:
+      COMPOSER_ALLOW_SUPERUSER: 1
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: mbstring, xml, ctype, json, bcmath, tokenizer, fileinfo
-          coverage: none
-      - name: Install Dependencies
-        run: composer require "illuminate/support:${{ matrix.laravel }}" --no-update
-      - name: Install Composer Dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: mbstring, xml, bcmath, json, fileinfo
+        ini-values: post_max_size=256M, upload_max_filesize=256M, memory_limit=512M
+        coverage: none
+
+    - name: Check PHP version
+      run: php -v
+
+    - name: Setup Composer
+      run: composer self-update --preview
+
+    - name: Install dependencies
+      run: |
+        if [ "${{ matrix.php-version }}" == "7.4" ]; then
+          composer require illuminate/support:8.* illuminate/console:8.* illuminate/http:8.* illuminate/foundation:8.*
+        elif [ "${{ matrix.php-version }}" == "8.0" ]; then
+          composer require illuminate/support:9.* illuminate/console:9.* illuminate/http:9.* illuminate/foundation:9.*
+        elif [ "${{ matrix.php-version }}" == "8.1" ]; then
+          composer require illuminate/support:10.* illuminate/console:10.* illuminate/http:10.* illuminate/foundation:10.*
+        fi
+        composer install --prefer-dist --no-progress --no-suggest
+
+    # - name: Run tests
+    #   run: vendor/bin/phpunit --coverage-text
