@@ -41,11 +41,11 @@ class EKlaimPublish extends Command
         // Paths to the files in the package
         $files = [
             'Configuration file' => [
-                'source' => base_path('packages/faisal-halim/laravel-eklaim-api/src/Config/eklaim.php'),
+                'source' => base_path('vendor/halim/laravel-eklaim-api/src/Config/eklaim.php'),
                 'destination' => config_path('eklaim.php')
             ],
             'Routes file' => [
-                'source' => base_path('packages/faisal-halim/laravel-eklaim-api/src/Routes/api.php'),
+                'source' => base_path('vendor/halim/laravel-eklaim-api/src/Routes/api.php'),
                 'destination' => base_path('routes/eklaim-api.php')
             ]
         ];
@@ -55,8 +55,8 @@ class EKlaimPublish extends Command
         }
 
         // Inform the user about the need to include the routes
-        $this->info('Please ensure you include the routes from eklaim-api.php in your routes/api.php or routes/web.php file by adding:');
-        $this->info("require_once base_path('routes/eklaim-api.php');");
+        $this->info('Please ensure you include the routes from eklaim-api.php in your routes/api.php or routes/web.php');
+        $this->warn("example : require_once __DIR__ . '/eklaim-api.php';");
 
         return 0; // Status code 0 indicates success
     }
