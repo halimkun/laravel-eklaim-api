@@ -32,7 +32,7 @@
         "illuminate/support": "^8.0|^9.0|^10.0",
         "illuminate/console": "^8.0|^9.0|^10.0",
         "illuminate/http": "^8.0|^9.0|^10.0",
-        "Illuminate/foundation": "^8.0|^9.0|^10.0"
+        "illuminate/foundation": "^8.0|^9.0|^10.0"
     },
     "autoload": {
         "psr-4": {
