@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 use FaisalHalim\LaravelEklaimApi\Controllers\SitbController;
 use FaisalHalim\LaravelEklaimApi\Controllers\KlaimController;
-use FaisalHalim\LaravelEklaimApi\Controllers\Covid19Controller;
 use FaisalHalim\LaravelEklaimApi\Controllers\PatientController;
 use FaisalHalim\LaravelEklaimApi\Controllers\DiagnosisController;
 use FaisalHalim\LaravelEklaimApi\Controllers\GroupKlaimController;

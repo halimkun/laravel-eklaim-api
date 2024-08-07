@@ -5,7 +5,6 @@ namespace FaisalHalim\LaravelEklaimApi\Providers;
 use Illuminate\Support\ServiceProvider;
 use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
 use FaisalHalim\LaravelEklaimApi\Helpers\EKlaimCrypt;
-use Illuminate\Support\Facades\Artisan;
 
 class EKlaimServiceProvider extends ServiceProvider
 {
