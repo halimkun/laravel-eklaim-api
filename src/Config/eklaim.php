@@ -2,46 +2,40 @@
 
 return [
     /**
-     * URL dasar untuk API E-KLAIM.
-     * Nilai ini diambil dari variabel lingkungan EKLAIM_API_URL yang diatur di file .env.
-     * URL ini digunakan untuk membuat permintaan ke API E-KLAIM.
+     * URL dasar untuk API EKlaim.
+     * URL ini digunakan untuk mengakses layanan API EKlaim.
      *
      * @var string
      */
     'api_url' => env('EKLAIM_API_URL'),
 
     /**
-     * Kunci rahasia yang digunakan untuk enkripsi dan dekripsi data.
-     * Nilai ini diambil dari variabel lingkungan EKLAIM_SECRET_KEY yang diatur di file .env.
-     * Kunci ini harus dalam format hexadecimal dan panjang 256-bit.
+     * Kunci rahasia yang digunakan untuk otentikasi dengan API EKlaim.
+     * Kunci ini digunakan untuk memastikan bahwa permintaan ke API adalah sah.
      *
      * @var string
      */
     'secret_key' => env('EKLAIM_SECRET_KEY'),
 
     /**
-     * Menentukan apakah respons dari API harus didekripsi.
-     * Jika diatur ke true, data respons yang diterima dari API akan didekripsi
-     * menggunakan kunci rahasia yang diberikan. Secara default, dekripsi dinonaktifkan.
+     * Menentukan apakah respons dari API EKlaim harus didekripsi.
+     * Jika true, respons dari API akan didekripsi sebelum digunakan.
      *
      * @var bool
      */
     'decrypt_response' => true,
 
     /**
-     * Menentukan apakah respons dari API harus dikemas secara otomatis dalam bentuk EklaimResponse.
-     * Jika diatur ke true, respons yang diterima akan secara otomatis dikonversi menjadi objek EklaimResponse
-     * sebelum dikembalikan. Ini berguna untuk memastikan konsistensi format respons.
+     * Menentukan apakah respons API harus dikembalikan sebagai JSON murni.
+     * Jika true, respons dari API akan dikembalikan dalam format JSON tanpa perubahan.
      *
      * @var bool
      */
-    'auto_response' => false,
+    'pure_json' => false,
 
     /**
-     * Nama saluran log yang digunakan untuk mencatat kesalahan yang terjadi
-     * selama interaksi dengan API E-KLAIM. Secara default, kesalahan akan dicatat
-     * ke saluran log 'stack'. Anda dapat mengubah ini untuk mencatat ke saluran log
-     * yang berbeda yang telah dikonfigurasi di file konfigurasi logging.
+     * Saluran logging yang digunakan untuk mencatat aktivitas API EKlaim.
+     * Saluran ini digunakan untuk menyimpan log aktivitas yang berkaitan dengan penggunaan API.
      *
      * @var string
      */

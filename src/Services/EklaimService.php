@@ -79,7 +79,6 @@ class EklaimService
         return self::response($data);
     }
 
-
     /**
      * Mengembalikan respons dalam format JSON dengan kode status yang sesuai.
      * 
@@ -91,13 +90,12 @@ class EklaimService
         $decodedData = ResponseHelper::decode($data, true);
         $statusCode = self::getResponseStatusCode($data);
 
-        if (config('eklaim.auto_response', false)) {
-            return new EklaimResponse($decodedData, $statusCode);
+        if (config('eklaim.pure_json', false)) {
+            return $decodedData;
         }
-
-        return response($decodedData, $statusCode);
+        
+        return new EklaimResponse($decodedData, $statusCode);
     }
-
 
     /**
      * Mengekstrak data dari respons API dengan memotong bagian yang tidak diperlukan.
