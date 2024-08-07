@@ -14,7 +14,6 @@ jobs:
     strategy:
       matrix:
         php-version: ['7.4', '8.0', '8.1']
-        laravel-version: ['8', '9', '10']
       fail-fast: false
     env:
       COMPOSER_ALLOW_SUPERUSER: 1
@@ -48,5 +47,5 @@ jobs:
         fi
         composer install --prefer-dist --no-progress --no-suggest
 
-    # - name: Run tests
-    #   run: vendor/bin/phpunit --coverage-text
+    - name: Run tests
+      run: vendor/bin/phpunit --coverage-text
