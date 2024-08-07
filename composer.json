@@ -29,10 +29,9 @@
     ],
     "require": {
         "php": "^7.3|^8.0|^8.1",
-        "illuminate/support": "^8.0|^9.0|^10.0",
-        "illuminate/console": "^8.0|^9.0|^10.0",
-        "illuminate/http": "^8.0|^9.0|^10.0",
-        "illuminate/foundation": "^8.0|^9.0|^10.0"
+        "illuminate/support": ">=5.7",
+        "illuminate/console": ">=5.7",
+        "illuminate/http": ">=5.7"
     },
     "autoload": {
         "psr-4": {
