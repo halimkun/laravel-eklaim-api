@@ -1,6 +1,6 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Helpers;
+namespace Halim\EKlaim\Helpers;
 
 use Illuminate\Http\Request;
 

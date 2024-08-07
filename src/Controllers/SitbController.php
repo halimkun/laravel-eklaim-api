@@ -1,10 +1,10 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Controllers;
+namespace Halim\EKlaim\Controllers;
 
 use App\Http\Controllers\Controller;
-use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
+use Halim\EKlaim\Builders\BodyBuilder;
+use Halim\EKlaim\Services\EklaimService;
 use Illuminate\Http\Request;
 
 class SitbController extends Controller

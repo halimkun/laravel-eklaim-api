@@ -1,12 +1,12 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Controllers;
+namespace Halim\EKlaim\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
-use FaisalHalim\LaravelEklaimApi\Helpers\ClaimDataParser;
+use Halim\EKlaim\Builders\BodyBuilder;
+use Halim\EKlaim\Services\EklaimService;
+use Halim\EKlaim\Helpers\ClaimDataParser;
 
 /**
  * Menangani permintaan untuk membuat klaim baru dengan API E-KLAIM.
@@ -21,7 +21,7 @@ use FaisalHalim\LaravelEklaimApi\Helpers\ClaimDataParser;
  */
 class KlaimController extends Controller
 {
-    public function new(\FaisalHalim\LaravelEklaimApi\Http\Requests\NewKlaimRequest $request)
+    public function new(\Halim\EKlaim\Http\Requests\NewKlaimRequest $request)
     {
         BodyBuilder::setMetadata('new_claim');
         BodyBuilder::setData([
@@ -46,7 +46,7 @@ class KlaimController extends Controller
         return EklaimService::send(BodyBuilder::prepared());
     }
 
-    public function set($sep, \FaisalHalim\LaravelEklaimApi\Http\Requests\SetKlaimDataRequest $request)
+    public function set($sep, \Halim\EKlaim\Http\Requests\SetKlaimDataRequest $request)
     {
         // ==================================================== PARSE MANDATORY DATA
         
@@ -69,7 +69,7 @@ class KlaimController extends Controller
         return EklaimService::send(BodyBuilder::prepared());
     }
 
-    public function delete($sep, \FaisalHalim\LaravelEklaimApi\Http\Requests\DeleteKlaimRequest $request)
+    public function delete($sep, \Halim\EKlaim\Http\Requests\DeleteKlaimRequest $request)
     {
         BodyBuilder::setMetadata('delete_claim');
         BodyBuilder::setData([
@@ -80,7 +80,7 @@ class KlaimController extends Controller
         return EklaimService::send(BodyBuilder::prepared());
     }
 
-    public function sendBulk(\FaisalHalim\LaravelEklaimApi\Http\Requests\SendBulkRequest $request)
+    public function sendBulk(\Halim\EKlaim\Http\Requests\SendBulkRequest $request)
     {
         BodyBuilder::setMetadata('send_claim');
         BodyBuilder::setData([
@@ -103,7 +103,7 @@ class KlaimController extends Controller
         return EklaimService::send(BodyBuilder::prepared());
     }
 
-    public function final(\FaisalHalim\LaravelEklaimApi\Http\Requests\FinalKlaimRequest $request)
+    public function final(\Halim\EKlaim\Http\Requests\FinalKlaimRequest $request)
     {
         BodyBuilder::setMetadata('claim_final');
         BodyBuilder::setData([

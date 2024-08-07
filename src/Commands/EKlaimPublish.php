@@ -1,6 +1,6 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Commands;
+namespace Halim\EKlaim\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;

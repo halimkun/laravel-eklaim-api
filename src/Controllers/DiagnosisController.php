@@ -1,18 +1,18 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Controllers;
+namespace Halim\EKlaim\Controllers;
 
 use App\Http\Controllers\Controller;
-use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
-use FaisalHalim\LaravelEklaimApi\Http\Requests\DiagnosisRequest;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
+use Halim\EKlaim\Builders\BodyBuilder;
+use Halim\EKlaim\Http\Requests\DiagnosisRequest;
+use Halim\EKlaim\Services\EklaimService;
 
 class DiagnosisController extends Controller
 {
     /**
      * Search diagnosis.
      * 
-     * @param \FaisalHalim\LaravelEklaimApi\Http\Requests\DiagnosisRequest $request
+     * @param \Halim\EKlaim\Http\Requests\DiagnosisRequest $request
      * @return \Illuminate\Http\Response
      * */
     public function search(DiagnosisRequest $request)
@@ -28,7 +28,7 @@ class DiagnosisController extends Controller
     /**
      * Search diagnosis ina grouper.
      * 
-     * @param \FaisalHalim\LaravelEklaimApi\Http\Requests\DiagnosisRequest $request
+     * @param \Halim\EKlaim\Http\Requests\DiagnosisRequest $request
      * @return \Illuminate\Http\Response
      * */
     public function searchIna(DiagnosisRequest $request)

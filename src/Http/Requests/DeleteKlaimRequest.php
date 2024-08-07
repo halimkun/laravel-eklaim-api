@@ -1,6 +1,6 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Http\Requests;
+namespace Halim\EKlaim\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

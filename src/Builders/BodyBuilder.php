@@ -1,6 +1,6 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Builders;
+namespace Halim\EKlaim\Builders;
 
 class BodyBuilder
 {

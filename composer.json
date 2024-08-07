@@ -32,13 +32,13 @@
     },
     "autoload": {
         "psr-4": {
-            "FaisalHalim\\LaravelEklaimApi\\": "src/"
+            "Halim\\EKlaim\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "FaisalHalim\\LaravelEklaimApi\\Providers\\EKlaimServiceProvider"
+                "Halim\\EKlaim\\Providers\\EKlaimServiceProvider"
             ]
         }
     },

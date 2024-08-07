@@ -1,12 +1,12 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Controllers;
+namespace Halim\EKlaim\Controllers;
 
 use App\Http\Controllers\Controller;
-use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
-use FaisalHalim\LaravelEklaimApi\Http\Requests\GroupingStage1Request;
-use FaisalHalim\LaravelEklaimApi\Http\Requests\GroupingStage2Request;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
+use Halim\EKlaim\Builders\BodyBuilder;
+use Halim\EKlaim\Http\Requests\GroupingStage1Request;
+use Halim\EKlaim\Http\Requests\GroupingStage2Request;
+use Halim\EKlaim\Services\EklaimService;
 use Illuminate\Http\Request;
 
 class GroupKlaimController extends Controller
@@ -14,7 +14,7 @@ class GroupKlaimController extends Controller
     /**
      * Menangani tahap pertama dari proses grouping.
      *
-     * @param \FaisalHalim\LaravelEklaimApi\Http\Requests\GroupingStage1Request $request
+     * @param \Halim\EKlaim\Http\Requests\GroupingStage1Request $request
      * @return \Illuminate\Http\Response
      */
     public function stage1(GroupingStage1Request $request)
@@ -30,7 +30,7 @@ class GroupKlaimController extends Controller
     /**
      * Menangani tahap kedua dari proses grouping.
      *
-     * @param \FaisalHalim\LaravelEklaimApi\Http\Requests\GroupingStage2Request $request
+     * @param \Halim\EKlaim\Http\Requests\GroupingStage2Request $request
      * @return \Illuminate\Http\Response
      */
     public function stage2(GroupingStage2Request $request)

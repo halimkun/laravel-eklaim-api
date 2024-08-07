@@ -1,11 +1,11 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Controllers;
+namespace Halim\EKlaim\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use FaisalHalim\LaravelEklaimApi\Http\Requests\ProcedureRequest;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
+use Halim\EKlaim\Http\Requests\ProcedureRequest;
+use Halim\EKlaim\Services\EklaimService;
 
 class ProceduresController extends Controller
 {

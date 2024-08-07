@@ -1,10 +1,10 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Providers;
+namespace Halim\EKlaim\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
-use FaisalHalim\LaravelEklaimApi\Helpers\EKlaimCrypt;
+use Halim\EKlaim\Services\EklaimService;
+use Halim\EKlaim\Helpers\EKlaimCrypt;
 
 class EKlaimServiceProvider extends ServiceProvider
 {
@@ -17,7 +17,7 @@ class EKlaimServiceProvider extends ServiceProvider
     {
         // Register the EKlaimPublish command
         $this->commands([
-            \FaisalHalim\LaravelEklaimApi\Commands\EKlaimPublish::class,
+            \Halim\EKlaim\Commands\EKlaimPublish::class,
         ]);
     }
 
@@ -43,7 +43,7 @@ class EKlaimServiceProvider extends ServiceProvider
 
         // Register the EKlaimPublish command
         $this->commands([
-            \FaisalHalim\LaravelEklaimApi\Commands\EKlaimPublish::class,
+            \Halim\EKlaim\Commands\EKlaimPublish::class,
         ]);
     }
 }

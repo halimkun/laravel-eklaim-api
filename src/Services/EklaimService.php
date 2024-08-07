@@ -1,11 +1,11 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Services;
+namespace Halim\EKlaim\Services;
 
 use Illuminate\Support\Facades\Http;
-use FaisalHalim\LaravelEklaimApi\Helpers\EKlaimCrypt;
-use FaisalHalim\LaravelEklaimApi\Helpers\ResponseHelper;
-use FaisalHalim\LaravelEklaimApi\Http\Responses\EklaimResponse;
+use Halim\EKlaim\Helpers\EKlaimCrypt;
+use Halim\EKlaim\Helpers\ResponseHelper;
+use Halim\EKlaim\Http\Responses\EklaimResponse;
 
 class EklaimService
 {
@@ -84,7 +84,7 @@ class EklaimService
      * Mengembalikan respons dalam format JSON dengan kode status yang sesuai.
      * 
      * @param string $data
-     * @return FaisalHalim\LaravelEklaimApi\Services\EklaimResponse
+     * @return Halim\EKlaim\Services\EklaimResponse
      * */
     protected static function response($data)
     {

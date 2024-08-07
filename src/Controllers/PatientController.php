@@ -1,11 +1,11 @@
 <?php
 
-namespace FaisalHalim\LaravelEklaimApi\Controllers;
+namespace Halim\EKlaim\Controllers;
 
 use App\Http\Controllers\Controller;
-use FaisalHalim\LaravelEklaimApi\Services\EklaimService;
-use FaisalHalim\LaravelEklaimApi\Builders\BodyBuilder;
-use FaisalHalim\LaravelEklaimApi\Http\Requests\PatientUpadteRequest;
+use Halim\EKlaim\Services\EklaimService;
+use Halim\EKlaim\Builders\BodyBuilder;
+use Halim\EKlaim\Http\Requests\PatientUpadteRequest;
 
 class PatientController extends Controller
 {
@@ -13,7 +13,7 @@ class PatientController extends Controller
      * Update patient information.
      *
      * @param string $no_rekam_medis
-     * @param \FaisalHalim\LaravelEklaimApi\Http\Requests\PatientUpadteRequest $request
+     * @param \Halim\EKlaim\Http\Requests\PatientUpadteRequest $request
      * @return \Illuminate\Http\Response
      */
     public function update($no_rekam_medis, PatientUpadteRequest $request)

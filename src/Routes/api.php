@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-use FaisalHalim\LaravelEklaimApi\Controllers\SitbController;
-use FaisalHalim\LaravelEklaimApi\Controllers\KlaimController;
-use FaisalHalim\LaravelEklaimApi\Controllers\PatientController;
-use FaisalHalim\LaravelEklaimApi\Controllers\DiagnosisController;
-use FaisalHalim\LaravelEklaimApi\Controllers\GroupKlaimController;
-use FaisalHalim\LaravelEklaimApi\Controllers\ProceduresController;
+use Halim\EKlaim\Controllers\SitbController;
+use Halim\EKlaim\Controllers\KlaimController;
+use Halim\EKlaim\Controllers\PatientController;
+use Halim\EKlaim\Controllers\DiagnosisController;
+use Halim\EKlaim\Controllers\GroupKlaimController;
+use Halim\EKlaim\Controllers\ProceduresController;
 
 Route::as("e-klaim.")->middleware('api')->prefix('eklaim')->group(function () {
     // =====> method : new_claim
