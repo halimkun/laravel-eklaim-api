@@ -147,6 +147,16 @@ class ClaimDataParser
                 $data[$field] = $imploded;
             }
         }
+
+        // if diagnosa_inagrouper is not set, or is empty, set it to diagnosa
+        if (!isset($data['diagnosa_inagrouper']) || empty($data['diagnosa_inagrouper'])) {
+            $data['diagnosa_inagrouper'] = $data['diagnosa'];
+        }
+
+        // if procedure_inagrouper is not set, or is empty, set it to procedure
+        if (!isset($data['procedure_inagrouper']) || empty($data['procedure_inagrouper'])) {
+            $data['procedure_inagrouper'] = $data['procedure'];
+        }
     }
 
     /**
