@@ -38,10 +38,20 @@ class ClaimDataParser
     protected static function parseOptionalData(Request $request, array &$data)
     {
         $optionalFields = [
-            'tgl_masuk', 'tgl_pulang', 'cara_masuk', 'jenis_rawat',
-            'adl_sub_acute', 'adl_chronic', 'birth_weight', 'sistole',
-            'diastole',  'discharge_status', 'terapi_konvalesen',
-            'tarif_poli_eks', 'nama_dokter', 'kode_tarif'
+            'tgl_masuk',
+            'tgl_pulang',
+            'cara_masuk',
+            'jenis_rawat',
+            'adl_sub_acute',
+            'adl_chronic',
+            'birth_weight',
+            'sistole',
+            'diastole',
+            'discharge_status',
+            'terapi_konvalesen',
+            'tarif_poli_eks',
+            'nama_dokter',
+            'kode_tarif'
         ];
 
         foreach ($optionalFields as $field) {
@@ -80,15 +90,36 @@ class ClaimDataParser
      */
     protected static function handleUpgradeClassData(Request $request, array &$data)
     {
-        $upgradeFields = ['upgrade_class_ind', 'upgrade_class_class', 'upgrade_class_los', 'add_payment_pct', 'upgrade_class_payor'];
-        if ($request->hasAny($upgradeFields)) {
+        $upgradeFields = ['upgrade_class_ind', 'upgrade_class_class', 'upgrade_class_los', 'upgrade_class_payor'];
+        $upgData = [];
+
+
+        if ($request->hasAny($upgradeFields) && $request->upgrade_class_ind == 1) {
             $validationRules = array_fill_keys($upgradeFields, 'required');
             $request->validate($validationRules);
 
             foreach ($upgradeFields as $field) {
-                $data[$field] = $request->input($field);
+                $upgData[$field] = $request->input($field);
+
+                if ($field = 'upgrade_class_payor') {
+                    if ($request->input($field) == 1) {
+                        $upgData[$field] = 'peserta';
+                    } elseif ($request->input($field) == 2) {
+                        $upgData[$field] = 'pemberi_kerja';
+                    } elseif ($request->input($field) == 3) {
+                        $upgData[$field] = 'asuransi_tambahan';
+                    }
+                } else {
+                    $upgData[$field] = $request->input($field);
+                }
             }
+
+            $upgData['add_payment_pct'] = 1;
+            $upgData['add_payment_pct'] = 0;
         }
+
+        // add array from upgData to data without new key
+        $data = array_merge($data, $upgData);
     }
 
     /**
