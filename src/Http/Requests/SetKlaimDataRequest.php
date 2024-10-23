@@ -39,7 +39,7 @@ class SetKlaimDataRequest extends FormRequest
             "upgrade_class_class"       => "in:kelas_1,kelas_2,vip,vvip",
             "upgrade_class_los"         => "numeric",
             "add_payment_pct"           => "numeric",
-            "upgrade_class_payor"       => "in:peserta,pemberi_kerja,asuransi_tambahan",
+            "upgrade_class_payor"       => "in:1,2,3",
 
             "birth_weight"              => "numeric",
 
