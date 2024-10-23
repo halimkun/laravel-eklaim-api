@@ -14,10 +14,10 @@ class SetKlaimDataRequest extends FormRequest
     public function rules()
     {
         return [
-            "coder_nik"                 => "required|numeric|digits:16",        // mandatory
+            "coder_nik"                 => "numeric|digits:16",                // mandatory
 
-            "tgl_masuk"                 => "date_format:Y-m-d H:i:s",
-            "tgl_pulang"                => "date_format:Y-m-d H:i:s",
+            "tgl_masuk"                 => "date",
+            "tgl_pulang"                => "date",
             "cara_masuk"                => "in:gp,hosp-trans,mp,outp,inp,emd,born,nursing,psych,rehab,other",
             "jenis_rawat"               => "numeric|in:1,2,3",                          // 1: Rawat Inap, 2: Rawat Jalan, 3: Rawat IGD
             "kelas_rawat"               => "numeric|in:1,2,3",
@@ -31,8 +31,8 @@ class SetKlaimDataRequest extends FormRequest
 
             // ==== ventilator
             "use_ind"                   => "numeric|in:0,1",
-            "start_dttm"                => "date_format:Y-m-d H:i:s",
-            "stop_dttm"                 => "date_format:Y-m-d H:i:s",
+            "start_dttm"                => "date",
+            "stop_dttm"                 => "date",
             // ==== / end ventilator
 
             "upgrade_class_ind"         => "numeric|in:0,1",
@@ -46,7 +46,7 @@ class SetKlaimDataRequest extends FormRequest
             "sistole"                   => "numeric",
             "diastole"                  => "numeric",
 
-            "discharge_status"          => "numeric|in:1,2,3,4,5",                  // 1: Atas persetujuan dokter, 2: Dirujuk, 3: Atas permintaan sendiri, 4: Meninggal, 5: Lain-lain
+            "discharge_status"          => "nullable|in:1,2,3,4,5",                  // 1: Atas persetujuan dokter, 2: Dirujuk, 3: Atas permintaan sendiri, 4: Meninggal, 5: Lain-lain
 
             "diagnosa"                  => "array",
             "procedure"                 => "array",
@@ -54,24 +54,24 @@ class SetKlaimDataRequest extends FormRequest
             "procedure_inagrouper"      => "array",
 
             // ==== tarif_rs
-            "prosedur_non_bedah"        => "numeric",
-            "prosedur_bedah"            => "numeric",
-            "konsultasi"                => "numeric",
-            "tenaga_ahli"               => "numeric",
-            "keperawatan"               => "numeric",
-            "penunjang"                 => "numeric",
-            "radiologi"                 => "numeric",
-            "laboratorium"              => "numeric",
-            "pelayanan_darah"           => "numeric",
-            "rehabilitasi"              => "numeric",
-            "kamar"                     => "numeric",
-            "rawat_intensif"            => "numeric",
-            "obat"                      => "numeric",
-            "obat_kronis"               => "numeric",
-            "obat_kemoterapi"           => "numeric",
-            "alkes"                     => "numeric",
-            "bmhp"                      => "numeric",
-            "sewa_alat"                 => "numeric",
+            "prosedur_non_bedah"        => "numeric|min:0",
+            "prosedur_bedah"            => "numeric|min:0",
+            "konsultasi"                => "numeric|min:0",
+            "tenaga_ahli"               => "numeric|min:0",
+            "keperawatan"               => "numeric|min:0",
+            "penunjang"                 => "numeric|min:0",
+            "radiologi"                 => "numeric|min:0",
+            "laboratorium"              => "numeric|min:0",
+            "pelayanan_darah"           => "numeric|min:0",
+            "rehabilitasi"              => "numeric|min:0",
+            "kamar"                     => "numeric|min:0",
+            "rawat_intensif"            => "numeric|min:0",
+            "obat"                      => "numeric|min:0",
+            "obat_kronis"               => "numeric|min:0",
+            "obat_kemoterapi"           => "numeric|min:0",
+            "alkes"                     => "numeric|min:0",
+            "bmhp"                      => "numeric|min:0",
+            "sewa_alat"                 => "numeric|min:0",
             // ==== / end tarif_rs
 
             // "pemulasaraan_jenazah"      => "numeric|in:0,1",
@@ -104,34 +104,34 @@ class SetKlaimDataRequest extends FormRequest
             // "rad_thorax_ap_pa"          => "numeric|in:0,1",
             // ==== / end covid19_penunjang_pengurang
 
-            "terapi_konvalesen"         => "numeric",
+            "terapi_konvalesen"         => "nullable|numeric",
 
             // INFO : Tidak diperlukan per 1 Oktober 2021 (Manual Web Service 5.8.3b)
             // "akses_naat"                => "in:0,1",
 
-            "isoman_ind"                => "numeric|in:0,1",
+            "isoman_ind"                => "nullable|numeric|in:0,1",
 
-            "bayi_lahir_status_cd"      => "in:1,2",
+            "bayi_lahir_status_cd"      => "nullable|in:1,2",
 
-            "dializer_single_use"       => "numeric|in:0,1",
-            "kantong_darah"             => "numeric",
+            "dializer_single_use"       => "nullable|numeric|in:0,1",
+            "kantong_darah"             => "nullable|numeric",
 
             // ==== apgar
             // ==== / end apgar
 
             // ==== persalinan
-            "usia_kehamilan"            => "numeric",
-            "gravida"                   => "numeric",
-            "partus"                    => "numeric",
-            "abortus"                   => "numeric",
-            "onset_kontraksi"           => "in:spontan,induksi,non_spontan_non_induksi",
+            "usia_kehamilan"            => "nullable|numeric",
+            "gravida"                   => "nullable|numeric",
+            "partus"                    => "nullable|numeric",
+            "abortus"                   => "nullable|numeric",
+            "onset_kontraksi"           => "nullable|in:spontan,induksi,non_spontan_non_induksi",
 
             // ==== delivery
             // ==== / end delivery
 
             // ==== / end persalinan
 
-            "tarif_poli_eks"            => "numeric",
+            "tarif_poli_eks"            => "nullable|numeric",
             "nama_dokter"               => "string",
             "kode_tarif"                => "string|in:AP,AS,BP,BS,CP,CS,DP,DS,RSCM,RSJP,RSD,RSAB",
 
