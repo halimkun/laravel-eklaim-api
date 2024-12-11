@@ -115,6 +115,7 @@ class ClaimDataParser
             }
 
             $upgData['add_payment_pct'] = 1;
+            $upgData['add_payment_pct'] = 0;
         }
 
         // add array from upgData to data without new key
