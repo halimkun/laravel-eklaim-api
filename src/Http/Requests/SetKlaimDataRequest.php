@@ -14,12 +14,12 @@ class SetKlaimDataRequest extends FormRequest
     public function rules()
     {
         return [
-            "coder_nik"                 => "numeric|digits:16",                // mandatory
+            "coder_nik"                 => "numeric|digits:16",                                                     // mandatory
 
             "tgl_masuk"                 => "date",
             "tgl_pulang"                => "date",
             "cara_masuk"                => "in:gp,hosp-trans,mp,outp,inp,emd,born,nursing,psych,rehab,other",
-            "jenis_rawat"               => "numeric|in:1,2,3",                          // 1: Rawat Inap, 2: Rawat Jalan, 3: Rawat IGD
+            "jenis_rawat"               => "numeric|in:1,2,3",                                                      // 1: Rawat Inap, 2: Rawat Jalan, 3: Rawat IGD
             "kelas_rawat"               => "numeric|in:1,2,3",
 
             "adl_sub_acute"             => "numeric|between:12,60",
@@ -35,18 +35,18 @@ class SetKlaimDataRequest extends FormRequest
             "stop_dttm"                 => "date",
             // ==== / end ventilator
 
+            "add_payment_pct"           => "numeric",
             "upgrade_class_ind"         => "numeric|in:0,1",
             "upgrade_class_class"       => "in:kelas_1,kelas_2,vip,vvip",
             "upgrade_class_los"         => "numeric",
-            "add_payment_pct"           => "numeric",
-            "upgrade_class_payor"       => "in:1,2,3",
+            "upgrade_class_payor"       => "in:1,2,3",                                                              // 1: Peserta, 2: Pemberi Kerja, 3: Asuransi Tambahan
 
             "birth_weight"              => "numeric",
 
             "sistole"                   => "numeric",
             "diastole"                  => "numeric",
 
-            "discharge_status"          => "nullable|in:1,2,3,4,5",                  // 1: Atas persetujuan dokter, 2: Dirujuk, 3: Atas permintaan sendiri, 4: Meninggal, 5: Lain-lain
+            "discharge_status"          => "nullable|in:1,2,3,4,5",                                                 // 1: Atas persetujuan dokter, 2: Dirujuk, 3: Atas permintaan sendiri, 4: Meninggal, 5: Lain-lain
 
             "diagnosa"                  => "array",
             "procedure"                 => "array",
@@ -106,7 +106,6 @@ class SetKlaimDataRequest extends FormRequest
 
             "terapi_konvalesen"         => "nullable|numeric",
 
-            // INFO : Tidak diperlukan per 1 Oktober 2021 (Manual Web Service 5.8.3b)
             // "akses_naat"                => "in:0,1",
 
             "isoman_ind"                => "nullable|numeric|in:0,1",
@@ -115,6 +114,11 @@ class SetKlaimDataRequest extends FormRequest
 
             "dializer_single_use"       => "nullable|numeric|in:0,1",
             "kantong_darah"             => "nullable|numeric",
+
+            // ==== sitb
+            "jkn_sitb_checked_ind"      => "nullable|numeric|in:0,1",
+            "jkn_sitb_noreg"            => "nullable|string",
+            // ==== / end sitb
 
             // ==== apgar
             // ==== / end apgar

@@ -24,8 +24,26 @@ class ClaimDataParser
         self::handleTarifRsData($request, $data);
         self::handlePelayananDarahData($request, $data);
         self::handlePersalinanData($request, $data);
+        self::handleSitbData($request, $data);
 
         return $data;
+    }
+
+    /**
+     * Menangani data SITB yang diperlukan.
+     *
+     * @param Request $request
+     * @param array $data
+     * @return void
+     */
+    public static function handleSitbData(Request $request, array &$data)
+    {
+        $sitbFields = ['jkn_sitb_noreg'];
+        foreach ($sitbFields as $field) {
+            if ($request->has($field)) {
+                $data[$field] = $request->input($field);
+            }
+        }
     }
 
     /**
@@ -51,7 +69,15 @@ class ClaimDataParser
             'terapi_konvalesen',
             'tarif_poli_eks',
             'nama_dokter',
-            'kode_tarif'
+            'kode_tarif',
+
+            'pemulasaraan_jenazah',
+            'kantong_jenazah',
+            'peti_jenazah',
+            'plastik_erat',
+            'desinfektan_jenazah',
+            'mobil_jenazah',
+            'desinfektan_mobil_jenazah'
         ];
 
         foreach ($optionalFields as $field) {
